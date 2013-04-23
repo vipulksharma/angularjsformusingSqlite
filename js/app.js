@@ -1,21 +1,23 @@
 function FormCtrl($scope) {
     $scope.firstName = '';
     $scope.lastName = '';
+    $scope.shortName = 'MyDatabase';
+    $scope.version = '1.0';
+    $scope.displayName = 'My Test Database Example';
+    $scope.maxSizeInBytes = 65536;
+    $scope.db = openDatabase($scope.shortName, $scope.version, $scope.displayName, $scope.maxSizeInBytes);
+
 
     $scope.insertRecords = function() {
-        $scope.shortName = 'MyDatabase';
-        $scope.version = '1.0';
-        $scope.displayName = 'My Test Database Example';
-        $scope.maxSizeInBytes = 65536;
-        $scope.db = openDatabase($scope.shortName, $scope.version, $scope.displayName, $scope.maxSizeInBytes);
         $scope.createTableIfNotExists();
         $scope.insertsql = 'INSERT INTO Contacts (firstName, lastName) VALUES (?, ?)';
-
-        $scope.db.transaction(
-            function (transaction) {
-                transaction.executeSql($scope.insertsql, [$scope.firstName, $scope.lastName]);
-            }
-        );
+        if($scope.contactForm.$valid) {
+            $scope.db.transaction(
+                function (transaction) {
+                    transaction.executeSql($scope.insertsql, [$scope.firstName, $scope.lastName]);
+                }
+            );
+        }
     };
 
     $scope.createTableIfNotExists = function() {
@@ -23,6 +25,15 @@ function FormCtrl($scope) {
         $scope.db.transaction(
             function (transaction) {
                 transaction.executeSql($scope.createsql, []);
+            }
+        );
+    };
+
+    $scope.dropTable = function() {
+        $scope.dropsql = "DROP TABLE Contacts";
+        $scope.db.transaction(
+            function (transaction) {
+                transaction.executeSql($scope.dropsql, []);
             }
         );
     };

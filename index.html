@@ -1,14 +1,17 @@
 <!doctype html>
 <html ng-app>
 <head>
-    <script src="http://code.angularjs.org/1.0.6/angular.min.js"></script>
+    <script src="./js/angular.js"></script>
     <script src="./js/app.js"></script>
 </head>
 <body>
 <form name="contactForm" ng-controller="FormCtrl">
     <input name="firstName" ng-model="firstName" required placeholder="First Name">
+    <span class="error" ng-show="contactForm.firstName.$error.required">Required!</span><br>
     <input name="lastName" ng-model="lastName" required placeholder="Last Name">
+    <span class="error" ng-show="contactForm.lastName.$error.required">Required!</span><br>
     <input type="button" ng-click="insertRecords()" value="Insert Records">
+    <input type="button" ng-click="dropTable()" value="Drop Table">
 
 </form>
 </body>
