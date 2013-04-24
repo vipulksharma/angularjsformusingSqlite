@@ -4,15 +4,48 @@
     <script src="./js/angular.js"></script>
     <script src="./js/app.js"></script>
 </head>
-<body>
-<form name="contactForm" ng-controller="FormCtrl">
+<body ng-controller="FormCtrl">
+<form name="contactForm">
     <input name="firstName" ng-model="firstName" required placeholder="First Name">
     <span class="error" ng-show="contactForm.firstName.$error.required">Required!</span><br>
     <input name="lastName" ng-model="lastName" required placeholder="Last Name">
     <span class="error" ng-show="contactForm.lastName.$error.required">Required!</span><br>
+    <div>
+	    <span>Gender:</span>
+	    <input ng-model="gender" value="Male" type="radio" name="gender">
+	    <input ng-model="gender" value="Female" type="radio" name="gender">
+    </div>
+    <div ng-repeat="hobby in hobbies">
+	    <label class="checkbox" for="{{hobby.id}}">
+	      <input type="checkbox" value="{{hobby.id}}" ng-click="updateHobbies(hobby)" ng-model="hobby.checked" name="hobby" id="{{hobby.id}}" ng-required="value.length==0" checked="{{hobby.checked}}"/>
+	      {{hobby.label}}
+	    </label>
+    </div>
     <input type="button" ng-click="insertRecords()" value="Insert Records">
     <input type="button" ng-click="dropTable()" value="Drop Table">
-
+    <input type="button" ng-click="getContacts()" value="Show Contacts">
+    <input type="button" ng-click="updateContact()" value="Update Contacts">
 </form>
+<table style="width: 100%" border='1'>
+	<thead>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Gender</th>
+		<th>Hobbies</th>
+		<th></th>
+	</thead>
+	<tbody>
+		<tr style="width: 100%" ng-repeat="data in tableData">
+			<td>{{data.id}}</td>
+			<td>{{data.firstName}} {{data.lastName}}</td>
+			<td>{{data.gender}}</td>
+			<td>{{data.hobbies}}</td>
+			<td>
+			    <input type="button" ng-click="editContact(data.id)" value="Edit Contact">
+			    <input type="button" ng-click="deleteContact(data.id)" value="Delete Contact">
+			</td>
+		</tr>
+	</tbody>
+</table>
 </body>
 </html>
