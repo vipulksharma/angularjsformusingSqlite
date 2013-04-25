@@ -37,18 +37,18 @@ function FormCtrl($scope) {
 		for ( var i in $scope.value) {
 			hobbies += $scope.value[i] + ",";
 		}
-		$scope.insertsql = 'INSERT INTO Contacts (firstName, lastName, gender, hobbies) VALUES (?, ?, ?, ?)';
+		$scope.insertsql = 'INSERT INTO Contacts (firstName, lastName, gender, hobbies, image) VALUES (?, ?, ?, ?, ?)';
 		if ($scope.contactForm.$valid) {
 			$scope.db.transaction(function(transaction) {
 				transaction.executeSql($scope.insertsql, [ $scope.firstName,
-						$scope.lastName, $scope.gender, hobbies ],
+						$scope.lastName, $scope.gender, hobbies, document.getElementById('uploadImg').src ],
 						window.location.reload());
 			});
 		}
 	};
 
 	$scope.createTableIfNotExists = function() {
-		$scope.createsql = "CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, gender TEXT, hobbies Text)";
+		$scope.createsql = "CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, gender TEXT, hobbies Text, image TEXT)";
 		$scope.db.transaction(function(transaction) {
 			transaction.executeSql($scope.createsql, []);
 		});
@@ -84,6 +84,7 @@ function FormCtrl($scope) {
 				$scope.firstName = $scope.tableData[i].firstName;
 				$scope.lastName = $scope.tableData[i].lastName;
 				$scope.gender = $scope.tableData[i].gender;
+				$scope.imageSrc = $scope.tableData[i].image;
 				var hobbies = $scope.tableData[i].hobbies.split(',');
 				for ( var i in $scope.hobbies) {
 					if (hobbies.indexOf($scope.hobbies[i].label) > -1) {
@@ -102,11 +103,11 @@ function FormCtrl($scope) {
 		for ( var i in $scope.value) {
 			hobbies += $scope.value[i] + ",";
 		}
-		$scope.updateStatement = "UPDATE Contacts SET firstName = ?, lastName = ?, gender = ?, hobbies=? WHERE id=?";
+		$scope.updateStatement = "UPDATE Contacts SET firstName = ?, lastName = ?, gender = ?, hobbies=?, image=? WHERE id=?";
 		$scope.db.transaction(function(transaction) {
 			transaction.executeSql($scope.updateStatement,
 					[ $scope.firstName, $scope.lastName, $scope.gender,
-							hobbies, $scope.currentId ], window.location.reload());
+							hobbies, document.getElementById('uploadImg').src, $scope.currentId ], window.location.reload());
 		});
 	};
 

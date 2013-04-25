@@ -21,7 +21,10 @@
 	      {{hobby.label}}
 	    </label>
     </div>
-    <input type="button" ng-click="insertRecords()" value="Insert Records">
+	<h3>Choose file(s)</h3>
+	<p><input id="files-upload" type="file"></p>
+    <div id="file-list"><img id="uploadImg" ng-modal="imageSrc" ng-src="{{imageSrc}}" style="width:200px;"></img></div>
+<input type="button" ng-click="insertRecords()" value="Insert Records">
     <input type="button" ng-click="dropTable()" value="Drop Table">
     <input type="button" ng-click="getContacts()" value="Show Contacts">
     <input type="button" ng-click="updateContact()" value="Update Contacts">
@@ -32,6 +35,7 @@
 		<th>Name</th>
 		<th>Gender</th>
 		<th>Hobbies</th>
+		<th>Image</th>
 		<th></th>
 	</thead>
 	<tbody>
@@ -40,6 +44,7 @@
 			<td>{{data.firstName}} {{data.lastName}}</td>
 			<td>{{data.gender}}</td>
 			<td>{{data.hobbies}}</td>
+			<td><img ng-src="{{data.image}}" style="width:200px;"></img></td>
 			<td>
 			    <input type="button" ng-click="editContact(data.id)" value="Edit Contact">
 			    <input type="button" ng-click="deleteContact(data.id)" value="Delete Contact">
@@ -47,5 +52,6 @@
 		</tr>
 	</tbody>
 </table>
+<script src="./js/fileUpload.js"></script>
 </body>
 </html>
